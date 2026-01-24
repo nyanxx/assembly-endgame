@@ -15,8 +15,8 @@ export default function Alphabet(props) {
 
   let style = !props.isActive
     ? props.match
-      ? { backgroundColor: "green" }
-      : { backgroundColor: "red" }
+      ? { backgroundColor: "#10A95B" }
+      : { backgroundColor: "#EC5D49" }
     : {};
 
   return (

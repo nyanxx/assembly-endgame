@@ -8,7 +8,11 @@ export default function ProgrammingLanguage(props) {
         color: props.obj.fontColor,
       }}
     >
-      {props.obj.isAlive ? props.obj.name : <strike>{props.obj.name}</strike>}
+      {props.obj.isAlive ? (
+        props.obj.name
+      ) : (
+        <div className="dead">{props.obj.name}</div>
+      )}
     </div>
   );
 }

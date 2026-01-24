@@ -1,7 +1,9 @@
 import { useState } from "react";
-import programmingLanguagesData from "./assets/programmingLanguagesData";
+import ReactConfetti from "react-confetti";
 import Alphabet from "./components/Alphabet";
+import CommentBanner from "./components/CommentBanner";
 import ProgrammingLanguage from "./components/ProgrammingLanguage";
+import programmingLanguagesData from "./assets/programmingLanguagesData";
 import { getWord, getAlphabets } from "./utils/utils";
 
 export default function App() {
@@ -99,21 +101,57 @@ export default function App() {
     setAlphabetProperty(getAlphabets());
   }
 
+  // All languages dies except assembly
+  const gameLoss = proLanData.count >= proLanData.data.length - 1;
+
+  // All letters form word are not hidden anymore
+  const gameWon =
+    wordProperty.filter((obj) => obj.isHidden === true).length === 0;
+  const gameOver = gameLoss || gameWon;
+
+  isGameOver(gameOver);
+  function isGameOver(status) {
+    if (status) {
+      if (gameLoss) {
+        console.log("Game Loss");
+      } else {
+        console.log("Game Won");
+      }
+    }
+  }
+
   return (
     <main>
       <header>
         <h1 className="heading">Assembly: Endgame</h1>
         <h2 className="sub-heading">
-          Guess the word within 8 attempts to keep the programming world safe
+          Guess the word in under 8 attempts to keep the programming world safe
           from Assembly!
         </h2>
       </header>
-      <div className="comment">HTML has left the building</div>
+      <div className="comment-container">
+        <CommentBanner
+          proLanData={proLanData}
+          gameOver={gameOver}
+          gameWon={gameWon}
+        />
+      </div>
       <div className="programming-languages">{proLanElements}</div>
       <div className="random-name">{wordDisplay}</div>
-      <div className="v-keyboard">{alphabets}</div>
-      {proLanData.count === 8 && (
-        <button onClick={startNewGame}>New Game</button>
+      <div
+        className={`v-keyboard`}
+        // className={`v-keyboard ${gameOver && "not-allowed"}`}
+        // style={gameOver && { cursor: "not-allowed" }}
+        // inert={gameOver}
+      >
+        {alphabets}
+      </div>
+      {gameWon && <ReactConfetti />}
+
+      {gameOver && (
+        <button onClick={startNewGame} className="new-game">
+          New Game
+        </button>
       )}
     </main>
   );
