@@ -1,5 +1,5 @@
 import { goodByes } from "../assets/goodByes";
-export default function CommentBanner(props) {
+export default function GameStatus(props) {
   const gameLoss = props.proLanData.count === 8;
 
   const backgroundColor = gameLoss
@@ -27,23 +27,25 @@ export default function CommentBanner(props) {
 
   const farewell = getPhrase();
   return (
-    <div
-      className="comment"
-      style={{ backgroundColor: backgroundColor, display: display }}
-    >
-      {gameLoss && (
-        <>
-          <span>Game Over!</span>
-          <span>You lose! Better start learning Assembly 😭</span>
-        </>
-      )}
-      {props.gameWon && (
-        <>
-          <span>You Win!</span>
-          <span>Well done!🎉</span>
-        </>
-      )}
-      {props.proLanData.count && !props.gameOver && farewell}
-    </div>
+    <section className="status-container">
+      <div
+        className="game-status"
+        style={{ backgroundColor: backgroundColor, display: display }}
+      >
+        {gameLoss && (
+          <>
+            <h2>Game Over!</h2>
+            <p>You lose! Better start learning Assembly 😭</p>
+          </>
+        )}
+        {props.gameWon && (
+          <>
+            <h2>You Win!</h2>
+            <p>Well done!🎉</p>
+          </>
+        )}
+        {props.proLanData.count && !props.gameOver && farewell}
+      </div>
+    </section>
   );
 }

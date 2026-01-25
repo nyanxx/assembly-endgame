@@ -3,14 +3,11 @@
 * {
   box-sizing: border-box;
   scrollbar-gutter: stable;
-  /* overflow-y: auto; */
-  /* outline: 1px solid rgb(247, 35, 35) !important;
-  outline-offset: -1px; */
 }
 
 body {
   display: flex;
-  font-family: "Hanken Grotesk";
+  font-family: "Hanken Grotesk", Arial, sans-serif;
   place-content: center;
   margin: 0;
   background-color: #262626;
@@ -39,20 +36,22 @@ header {
 header .heading {
   color: white;
   font-size: 20px;
+  font-weight: 500;
   margin: 0;
 }
 
 header .sub-heading {
-  margin: 0;
+  margin: 4px auto 0;
   color: #8b8274;
   font-size: 14px;
+  font-weight: 500;
 }
 
-.comment-container {
+.status-container {
   min-height: 59px;
 }
 
-.comment {
+.game-status {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,16 +68,18 @@ header .sub-heading {
   font-weight: 200;
 }
 
-.comment span:nth-child(1) {
+.game-status h2 {
+  margin: 0;
   font-size: 20px;
   font-weight: 400;
 }
-.comment span:nth-child(2) {
+.game-status p {
+  margin: 0;
   font-size: 16px;
   font-weight: 400;
 }
 
-.programming-languages {
+.language-chips {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -88,7 +89,7 @@ header .sub-heading {
   font-weight: 600;
 }
 
-.programming-languages .pl-name {
+.language-chips .pl-name {
   font-size: 12px;
   border-radius: 3px;
   padding: 4.5px;
@@ -109,7 +110,7 @@ header .sub-heading {
   background-color: #00000087;
 }
 
-.random-name {
+.word {
   display: flex;
   gap: 2px;
   margin-top: 36px;
@@ -118,7 +119,7 @@ header .sub-heading {
   font-weight: 600;
 }
 
-.random-name .alphabet {
+.word .alphabet {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,19 +129,19 @@ header .sub-heading {
   border-bottom: 1.5px solid wheat;
 }
 
-.v-keyboard {
+.keyboard {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 8px;
   margin: 36px auto;
 }
 
-.v-keyboard button:nth-child(21) {
+.keyboard button:nth-child(21) {
   /* start at column 3 */
   grid-column: 3;
 }
 
-.v-keyboard button {
+.keyboard button {
   background-color: #fcba29;
   border: 1px solid #d7d7d7;
   border-radius: 4px;
@@ -152,7 +153,7 @@ header .sub-heading {
   height: 40px;
 }
 
-.v-keyboard button:hover {
+.keyboard button:hover {
   cursor: pointer;
 }
 

@@ -1,23 +1,20 @@
 import { useState } from "react";
 import ReactConfetti from "react-confetti";
 import Alphabet from "./components/Alphabet";
-import CommentBanner from "./components/CommentBanner";
+import GameStatus from "./components/GameStatus";
 import ProgrammingLanguage from "./components/ProgrammingLanguage";
 import programmingLanguagesData from "./assets/programmingLanguagesData";
 import { getWord, getAlphabets } from "./utils/utils";
 
 export default function App() {
-  /** Array of object containing each char data or random word */
   const [wordProperty, setWordProperty] = useState(() => getWord());
 
-  /** Word display - above the virtual keyboard */
   const wordDisplay = wordProperty.map((obj, index) => (
     <div key={index} className="alphabet">
       {!obj.isHidden && obj.letter}
     </div>
   ));
 
-  /** Helper function to toggle character (on word display) */
   function alphabetDisplayToggle(x) {
     setWordProperty((prevArray) => {
       return prevArray.map((obj) => {
@@ -30,12 +27,12 @@ export default function App() {
     });
   }
 
-  const [proLanData, setProLanData] = useState(() => ({
+  const [languageProperty, setLanguageProperty] = useState(() => ({
     count: 0,
     data: programmingLanguagesData,
   }));
 
-  const proLanElements = proLanData.data.map((obj) => {
+  const languageElements = languageProperty.data.map((obj) => {
     return <ProgrammingLanguage key={obj.name} obj={obj} />;
   });
 
@@ -46,7 +43,7 @@ export default function App() {
 
   function killLanguage(match) {
     !match &&
-      setProLanData((prevObj) => {
+      setLanguageProperty((prevObj) => {
         return {
           count: prevObj.count + 1,
           data: prevObj.data.map((obj, index) => {
@@ -97,14 +94,14 @@ export default function App() {
 
   function startNewGame() {
     setWordProperty(getWord());
-    setProLanData({ count: 0, data: programmingLanguagesData });
+    setLanguageProperty({ count: 0, data: programmingLanguagesData });
     setAlphabetProperty(getAlphabets());
   }
 
   // All languages dies except assembly
-  const gameLoss = proLanData.count >= proLanData.data.length - 1;
+  const gameLoss = languageProperty.count >= languageProperty.data.length - 1;
 
-  // All letters form word are not hidden anymore
+  // All letters from word are not hidden anymore
   const gameWon =
     wordProperty.filter((obj) => obj.isHidden === true).length === 0;
   const gameOver = gameLoss || gameWon;
@@ -124,28 +121,26 @@ export default function App() {
     <main>
       <header>
         <h1 className="heading">Assembly: Endgame</h1>
-        <h2 className="sub-heading">
+        <p className="sub-heading">
           Guess the word in under 8 attempts to keep the programming world safe
           from Assembly!
-        </h2>
+        </p>
       </header>
-      <div className="comment-container">
-        <CommentBanner
-          proLanData={proLanData}
-          gameOver={gameOver}
-          gameWon={gameWon}
-        />
-      </div>
-      <div className="programming-languages">{proLanElements}</div>
-      <div className="random-name">{wordDisplay}</div>
-      <div
-        className={`v-keyboard`}
+      <GameStatus
+        proLanData={languageProperty}
+        gameOver={gameOver}
+        gameWon={gameWon}
+      />
+      <section className="language-chips">{languageElements}</section>
+      <section className="word">{wordDisplay}</section>
+      <section
+        className={`keyboard`}
         // className={`v-keyboard ${gameOver && "not-allowed"}`}
         // style={gameOver && { cursor: "not-allowed" }}
         // inert={gameOver}
       >
         {alphabets}
-      </div>
+      </section>
       {gameWon && <ReactConfetti />}
 
       {gameOver && (
