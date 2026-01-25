@@ -81,12 +81,14 @@ export default function App() {
     .map((letter) => {
       const isGuessed = guessedLetters.includes(letter);
       const isCorrect = isGuessed && currentWord.includes(letter);
+      const isWrong = isGuessed && !currentWord.includes(letter);
       return (
         <Alphabet
           key={letter}
           alphabet={letter}
           isGuessed={isGuessed}
           isCorrect={isCorrect}
+          isWrong={isWrong}
           alphabetDisplayToggle={alphabetDisplayToggle}
           killLanguageChip={killLanguageChip}
           addGuessedLetter={addGuessedLetter}
@@ -136,16 +138,9 @@ export default function App() {
       />
       <section className="language-chips">{languageElements}</section>
       <section className="word">{wordDisplay}</section>
-      <section
-        className={`keyboard`}
-        // className={`v-keyboard ${gameOver && "not-allowed"}`}
-        // style={gameOver && { cursor: "not-allowed" }}
-        // inert={gameOver}
-      >
-        {alphabets}
-      </section>
-      {gameWon && <ReactConfetti />}
+      <section className={`keyboard`}>{alphabets}</section>
 
+      {gameWon && <ReactConfetti />}
       {gameOver && (
         <button onClick={startNewGame} className="new-game">
           New Game

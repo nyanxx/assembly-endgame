@@ -148,13 +148,20 @@ header .sub-heading {
   font-size: 16px;
   font-weight: 600;
   font-family: "Hanken Grotesk";
-
   width: 40px;
   height: 40px;
 }
 
 .keyboard button:hover {
   cursor: pointer;
+}
+
+.keyboard .correct {
+  background-color: #10a95b;
+}
+
+.keyboard .wrong {
+  background-color: #ec5d49;
 }
 
 .new-game {

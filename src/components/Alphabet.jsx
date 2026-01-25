@@ -1,4 +1,4 @@
-// import { clsx } from "clsx";
+import { clsx } from "clsx";
 
 export default function Alphabet(props) {
   function handleAlphabetClick() {
@@ -9,19 +9,14 @@ export default function Alphabet(props) {
     }
   }
 
-  const style = props.isGuessed
-    ? props.isCorrect
-      ? { backgroundColor: "#10A95B" }
-      : { backgroundColor: "#EC5D49" }
-    : {};
+  const className = clsx({
+    correct: props.isCorrect,
+    // wrong: props.isGuessed && !props.isCorrect,
+    wrong: props.isWrong,
+  });
 
   return (
-    <button
-      onClick={handleAlphabetClick}
-      type="button"
-      className="alphabet-button"
-      style={style}
-    >
+    <button onClick={handleAlphabetClick} type="button" className={className}>
       {props.alphabet}
     </button>
   );
