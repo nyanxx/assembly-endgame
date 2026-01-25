@@ -5,17 +5,15 @@ import GameStatus from "./components/GameStatus";
 import ProgrammingLanguage from "./components/ProgrammingLanguage";
 import programmingLanguagesData from "./assets/programmingLanguagesData";
 import { getWord, createWordProperty } from "./utils/utils";
+import clsx from "clsx";
 
 export default function App() {
-  /*
+  /**
+   * Assembly Endgame - Only display correctly guessed letters in word
    * Goal: Allow the user to start guessing the letters
    *
-   * Challenge: Update the keyboard when a letter is right
-   * or wrong.
-   *
-   * Bonus: use the `clsx` package to easily add conditional
-   * classNames to the keys of the keyboard. Check the docs
-   * to learn how to use it 📖
+   * Challenge: Only display the correctly-guessed letters
+   * in the word
    */
 
   const [currentWord, setCurrentWord] = useState(() => getWord());
@@ -32,11 +30,36 @@ export default function App() {
     createWordProperty(currentWord),
   );
 
-  const wordDisplay = wordProperty.map((obj, index) => (
-    <div key={index} className="alphabet">
-      {!obj.isHidden && obj.letter}
-    </div>
-  ));
+  // const wordDisplay = wordProperty.map((obj, index) => (
+  //   <div key={index} className="alphabet">
+  //     {!obj.isHidden && obj.letter}
+  //   </div>
+  // ));
+
+  const [languageProperty, setLanguageProperty] = useState(() => ({
+    count: 0,
+    data: programmingLanguagesData,
+  }));
+
+  // All languages dies except assembly
+  const gameLoss = languageProperty.count >= languageProperty.data.length - 1;
+
+  // All letters from word are not hidden anymore
+  const gameWon =
+    wordProperty.filter((obj) => obj.isHidden === true).length === 0;
+  const gameOver = gameLoss || gameWon;
+
+  const wordDisplay = currentWord.split("").map((letter, index) => {
+    const className = clsx({
+      alphabet: true,
+      lost: gameLoss,
+    });
+    return (
+      <div key={index} className={className}>
+        {guessedLetters.includes(letter) ? letter : ""}
+      </div>
+    );
+  });
 
   function alphabetDisplayToggle(x) {
     setWordProperty((prevArray) => {
@@ -49,11 +72,6 @@ export default function App() {
       });
     });
   }
-
-  const [languageProperty, setLanguageProperty] = useState(() => ({
-    count: 0,
-    data: programmingLanguagesData,
-  }));
 
   const languageElements = languageProperty.data.map((obj) => {
     return <ProgrammingLanguage key={obj.name} obj={obj} />;
@@ -102,14 +120,6 @@ export default function App() {
     setLanguageProperty({ count: 0, data: programmingLanguagesData });
     setGuessedLetters([]);
   }
-
-  // All languages dies except assembly
-  const gameLoss = languageProperty.count >= languageProperty.data.length - 1;
-
-  // All letters from word are not hidden anymore
-  const gameWon =
-    wordProperty.filter((obj) => obj.isHidden === true).length === 0;
-  const gameOver = gameLoss || gameWon;
 
   isGameOver(gameOver);
   function isGameOver(status) {

@@ -129,6 +129,10 @@ header .sub-heading {
   border-bottom: 1.5px solid wheat;
 }
 
+.word .lost {
+  color: #ec5d49;
+}
+
 .keyboard {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
