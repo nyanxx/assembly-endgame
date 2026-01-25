@@ -1,5 +1,6 @@
 export default function Alphabet(props) {
   function handleAlphabetClick() {
+    props.addGuessedLetter(props.alphabet);
     if (props.isActive) {
       props.alphabetDisplayToggle(props.alphabet);
       props.modifyAlphabetData(props.alphabet);

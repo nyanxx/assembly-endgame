@@ -7,6 +7,27 @@ import programmingLanguagesData from "./assets/programmingLanguagesData";
 import { getWord, getAlphabets } from "./utils/utils";
 
 export default function App() {
+  /**
+   * Assembly Endgame - Save the guessed letters
+   * Goal: Allow the user to start guessing the letters
+   *
+   * Challenge: Create a new array in state to hold user's
+   * guessed letters. When the user chooses a letter, add
+   * that letter to this state array.
+   *
+   * Don't worry about whether it was a right or wrong
+   * guess yet.
+   */
+
+  const [guessedLetters, setGuessedLetters] = useState([]);
+
+  function addGuessedLetter(letter) {
+    setGuessedLetters((prevArray) => {
+      return prevArray.includes(letter) ? prevArray : [...prevArray, letter];
+    });
+  }
+  // console.log(guessedLetters);
+
   const [wordProperty, setWordProperty] = useState(() => getWord());
 
   const wordDisplay = wordProperty.map((obj, index) => (
@@ -88,6 +109,7 @@ export default function App() {
         match={obj.match}
         alphabetDisplayToggle={alphabetDisplayToggle}
         modifyAlphabetData={modifyAlphabetProperty}
+        addGuessedLetter={addGuessedLetter}
       />
     );
   });
