@@ -4,7 +4,7 @@ import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
 import ProgrammingLanguage from "./components/ProgrammingLanguage";
 import programmingLanguagesData from "./assets/programmingLanguagesData";
-import { getWord, createWordProperty, getAlphabets } from "./utils/utils";
+import { getWord, createWordProperty } from "./utils/utils";
 
 export default function App() {
   /*
@@ -59,12 +59,8 @@ export default function App() {
     return <ProgrammingLanguage key={obj.name} obj={obj} />;
   });
 
-  /** Getting Array of object with alphabet and active status (for virtual keybord) */
-  const [alphabetProperty, setAlphabetProperty] = useState(() =>
-    getAlphabets(),
-  );
-
-  function killLanguage(match) {
+  function killLanguageChip(char) {
+    const match = currentWord.includes(char);
     !match &&
       setLanguageProperty((prevObj) => {
         return {
@@ -80,47 +76,29 @@ export default function App() {
       });
   }
 
-  /** Helper function for modifing virtual keybord button */
-  function modifyAlphabetProperty(char) {
-    const match = wordProperty
-      .map((obj) => obj.letter)
-      .join("")
-      .includes(char);
-
-    killLanguage(match);
-
-    setAlphabetProperty((prevArray) => {
-      return prevArray.map((obj) => {
-        return obj.alphabet === char
-          ? {
-              ...obj,
-              isActive: false,
-              match: match,
-            }
-          : obj;
-      });
+  const alphabets = Array.from({ length: 26 })
+    .map((_, i) => String.fromCharCode(65 + i))
+    .map((letter) => {
+      const isGuessed = guessedLetters.includes(letter);
+      const isCorrect = isGuessed && currentWord.includes(letter);
+      return (
+        <Alphabet
+          key={letter}
+          alphabet={letter}
+          isGuessed={isGuessed}
+          isCorrect={isCorrect}
+          alphabetDisplayToggle={alphabetDisplayToggle}
+          killLanguageChip={killLanguageChip}
+          addGuessedLetter={addGuessedLetter}
+        />
+      );
     });
-  }
-
-  const alphabets = alphabetProperty.map((obj) => {
-    return (
-      <Alphabet
-        key={obj.alphabet}
-        alphabet={obj.alphabet}
-        isActive={obj.isActive}
-        currentWord={currentWord}
-        alphabetDisplayToggle={alphabetDisplayToggle}
-        modifyAlphabetData={modifyAlphabetProperty}
-        addGuessedLetter={addGuessedLetter}
-      />
-    );
-  });
 
   function startNewGame() {
     setCurrentWord(getWord());
     setWordProperty(createWordProperty(currentWord));
     setLanguageProperty({ count: 0, data: programmingLanguagesData });
-    setAlphabetProperty(getAlphabets());
+    setGuessedLetters([]);
   }
 
   // All languages dies except assembly

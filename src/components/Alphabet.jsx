@@ -1,16 +1,16 @@
-import { clsx } from "clsx";
+// import { clsx } from "clsx";
 
 export default function Alphabet(props) {
   function handleAlphabetClick() {
     props.addGuessedLetter(props.alphabet);
-    if (props.isActive) {
+    if (!props.isGuessed) {
       props.alphabetDisplayToggle(props.alphabet);
-      props.modifyAlphabetData(props.alphabet);
+      props.killLanguageChip(props.alphabet);
     }
   }
 
-  let style = !props.isActive
-    ? props.currentWord.includes(props.alphabet)
+  const style = props.isGuessed
+    ? props.isCorrect
       ? { backgroundColor: "#10A95B" }
       : { backgroundColor: "#EC5D49" }
     : {};

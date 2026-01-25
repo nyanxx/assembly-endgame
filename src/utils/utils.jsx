@@ -15,14 +15,4 @@ function createWordProperty(word) {
   });
 }
 
-function getAlphabets() {
-  return Array.from({ length: 26 }).map((_, i) => {
-    return {
-      alphabet: String.fromCharCode(65 + i),
-      isActive: true,
-      match: false,
-    };
-  });
-}
-
-export { getWord, createWordProperty, getAlphabets };
+export { getWord, createWordProperty };
