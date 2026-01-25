@@ -4,20 +4,21 @@ import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
 import ProgrammingLanguage from "./components/ProgrammingLanguage";
 import programmingLanguagesData from "./assets/programmingLanguagesData";
-import { getWord, getAlphabets } from "./utils/utils";
+import { getWord, createWordProperty, getAlphabets } from "./utils/utils";
 
 export default function App() {
-  /**
-   * Assembly Endgame - Save the guessed letters
+  /*
    * Goal: Allow the user to start guessing the letters
    *
-   * Challenge: Create a new array in state to hold user's
-   * guessed letters. When the user chooses a letter, add
-   * that letter to this state array.
+   * Challenge: Update the keyboard when a letter is right
+   * or wrong.
    *
-   * Don't worry about whether it was a right or wrong
-   * guess yet.
+   * Bonus: use the `clsx` package to easily add conditional
+   * classNames to the keys of the keyboard. Check the docs
+   * to learn how to use it 📖
    */
+
+  const [currentWord, setCurrentWord] = useState(() => getWord());
 
   const [guessedLetters, setGuessedLetters] = useState([]);
 
@@ -26,9 +27,10 @@ export default function App() {
       return prevArray.includes(letter) ? prevArray : [...prevArray, letter];
     });
   }
-  // console.log(guessedLetters);
 
-  const [wordProperty, setWordProperty] = useState(() => getWord());
+  const [wordProperty, setWordProperty] = useState(() =>
+    createWordProperty(currentWord),
+  );
 
   const wordDisplay = wordProperty.map((obj, index) => (
     <div key={index} className="alphabet">
@@ -106,7 +108,7 @@ export default function App() {
         key={obj.alphabet}
         alphabet={obj.alphabet}
         isActive={obj.isActive}
-        match={obj.match}
+        currentWord={currentWord}
         alphabetDisplayToggle={alphabetDisplayToggle}
         modifyAlphabetData={modifyAlphabetProperty}
         addGuessedLetter={addGuessedLetter}
@@ -115,7 +117,8 @@ export default function App() {
   });
 
   function startNewGame() {
-    setWordProperty(getWord());
+    setCurrentWord(getWord());
+    setWordProperty(createWordProperty(currentWord));
     setLanguageProperty({ count: 0, data: programmingLanguagesData });
     setAlphabetProperty(getAlphabets());
   }

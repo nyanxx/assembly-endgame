@@ -1,3 +1,5 @@
+import { clsx } from "clsx";
+
 export default function Alphabet(props) {
   function handleAlphabetClick() {
     props.addGuessedLetter(props.alphabet);
@@ -7,15 +9,8 @@ export default function Alphabet(props) {
     }
   }
 
-  /**
-   * if active = yellow
-   * if not active
-   * is match = green
-   * is not match = red
-   */
-
   let style = !props.isActive
-    ? props.match
+    ? props.currentWord.includes(props.alphabet)
       ? { backgroundColor: "#10A95B" }
       : { backgroundColor: "#EC5D49" }
     : {};
