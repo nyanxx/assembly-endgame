@@ -89,14 +89,14 @@ header .sub-heading {
   font-weight: 600;
 }
 
-.language-chips .pl-name {
+.language-chips .chip {
   font-size: 12px;
   border-radius: 3px;
   padding: 4.5px;
   position: relative;
 }
 
-.dead::before {
+.language-chips .chip .lost::before {
   content: "💀";
   position: absolute;
   display: flex;

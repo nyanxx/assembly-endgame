@@ -4,14 +4,13 @@ export default function Alphabet(props) {
   function handleAlphabetClick() {
     props.addGuessedLetter(props.alphabet);
     if (!props.isGuessed) {
-      props.alphabetDisplayToggle(props.alphabet);
       props.killLanguageChip(props.alphabet);
     }
   }
 
   const className = clsx({
     correct: props.isCorrect,
-    // wrong: props.isGuessed && !props.isCorrect,
+    // wrong: props.isGuessed && !props.isCorrect, // With this i think there is even no need for "isWrong"??
     wrong: props.isWrong,
   });
 

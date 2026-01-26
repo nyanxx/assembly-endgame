@@ -2,28 +2,26 @@ import { useState } from "react";
 import ReactConfetti from "react-confetti";
 import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
-import ProgrammingLanguage from "./components/ProgrammingLanguage";
+import LanguageChip from "./components/LanguageChip";
 import programmingLanguagesData from "./assets/programmingLanguagesData";
-import { getWord, createWordProperty } from "./utils/utils";
+import { getWord } from "./utils/utils";
 import clsx from "clsx";
 
 export default function App() {
   /**
-   * Assembly Endgame - Wrong guess count
+   * Assembly Endgame - Lost languages
    * Goal: Add in the incorrect guesses mechanism to the game
    *
-   * Challenge: Derive a variable (`wrongGuessCount`) for the
-   * number of incorrect guesses by using the other state
-   * values we're already holding in the component.
+   * Challenge: When mapping over the languages, determine how
+   * many of them have been "lost" and add the "lost" class if
+   * so.
    *
-   * console.log the wrongGuessCount for now
+   * Hint: use the wrongGuessCount combined with the index of
+   * the item in the array while inside the languages.map code
    */
 
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
-  const [wordProperty, setWordProperty] = useState(() =>
-    createWordProperty(currentWord),
-  );
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [languageProperty, setLanguageProperty] = useState(() => ({
     count: 0,
@@ -34,13 +32,14 @@ export default function App() {
   const wrongGuessCount = guessedLetters.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
-  console.log(wrongGuessCount);
 
-  // Static values
-  const gameLoss = languageProperty.count >= languageProperty.data.length - 1; // All languages dies except assembly
+  // const gameLoss = languageProperty.count >= languageProperty.data.length - 1; // All languages dies except assembly
+  const gameLoss = wrongGuessCount == 8;
 
   const gameWon =
-    wordProperty.filter((obj) => obj.isHidden === true).length === 0; // All letters from word are not hidden anymore
+    new Set(currentWord.split("")).size ===
+    guessedLetters.filter((letter) => currentWord.includes(letter)).length;
+  // guessedLetter don't have redundant letters so on words like MOON it have only MON
 
   const gameOver = gameLoss || gameWon;
 
@@ -56,8 +55,15 @@ export default function App() {
     );
   });
 
-  const languageElements = languageProperty.data.map((obj) => {
-    return <ProgrammingLanguage key={obj.name} obj={obj} />;
+  const languageElements = languageProperty.data.map((obj, index) => {
+    return (
+      <LanguageChip
+        key={obj.name}
+        obj={obj}
+        // lost={index < wrongGuessCount && !(wrongGuessCount > 8)}
+        lost={index < wrongGuessCount}
+      />
+    );
   });
 
   const alphabets = Array.from({ length: 26 })
@@ -74,7 +80,6 @@ export default function App() {
           isGuessed={isGuessed}
           isCorrect={isCorrect}
           isWrong={isWrong}
-          alphabetDisplayToggle={alphabetDisplayToggle}
           killLanguageChip={killLanguageChip}
           addGuessedLetter={addGuessedLetter}
         />
@@ -85,18 +90,6 @@ export default function App() {
   function addGuessedLetter(letter) {
     setGuessedLetters((prevArray) => {
       return prevArray.includes(letter) ? prevArray : [...prevArray, letter];
-    });
-  }
-
-  function alphabetDisplayToggle(x) {
-    setWordProperty((prevArray) => {
-      return prevArray.map((obj) => {
-        if (obj.letter === x) {
-          return { ...obj, isHidden: false };
-        } else {
-          return obj;
-        }
-      });
     });
   }
 
@@ -118,23 +111,14 @@ export default function App() {
   }
 
   function startNewGame() {
-    const newWord = getWord();
-    setCurrentWord(newWord);
-    setWordProperty(createWordProperty(newWord));
+    setCurrentWord(getWord());
     setLanguageProperty({ count: 0, data: programmingLanguagesData });
     setGuessedLetters([]);
   }
 
-  // isGameOver(gameOver);
-  // function isGameOver(status) {
-  //   if (status) {
-  //     if (gameLoss) {
-  //       console.log("Game Loss");
-  //     } else {
-  //       console.log("Game Won");
-  //     }
-  //   }
-  // }
+  // console.log(currentWord);
+  // console.log(languageProperty);
+  // console.log(guessedLetters);
 
   return (
     <main>

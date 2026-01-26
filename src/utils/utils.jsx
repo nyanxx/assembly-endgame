@@ -6,13 +6,4 @@ function getWord() {
   return word.toUpperCase();
 }
 
-function createWordProperty(word) {
-  return Array.from(word).map((letter) => {
-    return {
-      letter: letter.toUpperCase(),
-      isHidden: true,
-    };
-  });
-}
-
-export { getWord, createWordProperty };
+export { getWord };
