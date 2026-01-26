@@ -1,19 +1,16 @@
 import { useState } from "react";
 import ReactConfetti from "react-confetti";
+import clsx from "clsx";
 import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
 import LanguageChip from "./components/LanguageChip";
 import languages from "./assets/programmingLanguagesData";
 import { getWord } from "./utils/utils";
-import clsx from "clsx";
 
 export default function App() {
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
-  // const [languageProperty, setLanguageProperty] = useState(
-  //   () => programmingLanguagesData,
-  // );
 
   // Derived values
   const wrongGuessCount = guessedLetters.filter(
@@ -66,7 +63,6 @@ export default function App() {
           isGuessed={isGuessed}
           isCorrect={isCorrect}
           isWrong={isWrong}
-          // killLanguageChip={killLanguageChip}
           addGuessedLetter={addGuessedLetter}
         />
       );
@@ -79,27 +75,8 @@ export default function App() {
     });
   }
 
-  // function killLanguageChip(char) {
-  //   const match = currentWord.includes(char);
-  //   !match &&
-  //     setLanguageProperty((prevObj) => {
-  //       return {
-  //         count: prevObj.count + 1,
-  //         data: prevObj.data.map((obj, index) => {
-  //           if (index === prevObj.count) {
-  //             return { ...obj, isAlive: false };
-  //           } else {
-  //             return obj;
-  //           }
-  //         }),
-  //       };
-  //     });
-  // }
-
   function startNewGame() {
     setCurrentWord(getWord());
-    // setLanguageProperty({ count: 0, data: programmingLanguagesData });
-    // setLanguageProperty(programmingLanguagesData);
     setGuessedLetters([]);
   }
 

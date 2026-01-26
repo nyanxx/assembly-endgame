@@ -3,9 +3,6 @@ import { clsx } from "clsx";
 export default function Alphabet(props) {
   function handleAlphabetClick() {
     props.addGuessedLetter(props.alphabet);
-    if (!props.isGuessed) {
-      // props.killLanguageChip(props.alphabet);
-    }
   }
 
   const className = clsx({

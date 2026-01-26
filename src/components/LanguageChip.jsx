@@ -16,20 +16,3 @@ export default function LanguageChip(props) {
     </div>
   );
 }
-
-// return (
-//   <div
-//     key={props.obj.name}
-//     className="pl-name"
-//     style={{
-//       backgroundColor: props.obj.backgroundColor,
-//       color: props.obj.fontColor,
-//     }}
-//   >
-//     {props.obj.isAlive ? (
-//       props.obj.name
-//     ) : (
-//       <div className="lost">{props.obj.name}</div>
-//     )}
-//   </div>
-// );
