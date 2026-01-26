@@ -1,6 +1,6 @@
 import { goodByes } from "../assets/goodByes";
 export default function GameStatus(props) {
-  const gameLoss = props.proLanData.count === 8;
+  const gameLoss = props.wrongGuessCount === 8;
 
   const backgroundColor = gameLoss
     ? "#BA2A2A"
@@ -9,15 +9,15 @@ export default function GameStatus(props) {
       : "#7A5EA7";
 
   const display =
-    !props.gameOver && props.proLanData.count === 0 ? "none" : "flex";
+    !props.gameOver && props.wrongGuessCount === 0 ? "none" : "flex";
 
   const farewell = getPhrase();
 
   function getPhrase() {
     try {
       const deadName =
-        props.proLanData.count &&
-        props.proLanData.data[props.proLanData.count - 1].name;
+        props.wrongGuessCount &&
+        props.languages[props.wrongGuessCount - 1].name;
       return goodByes[Math.floor(Math.random() * 12)].replace(
         "##LANG##",
         deadName,
@@ -45,7 +45,7 @@ export default function GameStatus(props) {
             <p>Well done!🎉</p>
           </>
         )}
-        {props.proLanData.count && !props.gameOver && farewell}
+        {props.wrongGuessCount && !props.gameOver && farewell}
       </div>
     </section>
   );

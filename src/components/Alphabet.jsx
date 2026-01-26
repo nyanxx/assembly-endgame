@@ -4,7 +4,7 @@ export default function Alphabet(props) {
   function handleAlphabetClick() {
     props.addGuessedLetter(props.alphabet);
     if (!props.isGuessed) {
-      props.killLanguageChip(props.alphabet);
+      // props.killLanguageChip(props.alphabet);
     }
   }
 

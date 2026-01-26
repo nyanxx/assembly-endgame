@@ -3,37 +3,23 @@ import ReactConfetti from "react-confetti";
 import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
 import LanguageChip from "./components/LanguageChip";
-import programmingLanguagesData from "./assets/programmingLanguagesData";
+import languages from "./assets/programmingLanguagesData";
 import { getWord } from "./utils/utils";
 import clsx from "clsx";
 
 export default function App() {
-  /**
-   * Assembly Endgame - Lost languages
-   * Goal: Add in the incorrect guesses mechanism to the game
-   *
-   * Challenge: When mapping over the languages, determine how
-   * many of them have been "lost" and add the "lost" class if
-   * so.
-   *
-   * Hint: use the wrongGuessCount combined with the index of
-   * the item in the array while inside the languages.map code
-   */
-
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
-  const [languageProperty, setLanguageProperty] = useState(() => ({
-    count: 0,
-    data: programmingLanguagesData,
-  }));
+  // const [languageProperty, setLanguageProperty] = useState(
+  //   () => programmingLanguagesData,
+  // );
 
   // Derived values
   const wrongGuessCount = guessedLetters.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
 
-  // const gameLoss = languageProperty.count >= languageProperty.data.length - 1; // All languages dies except assembly
   const gameLoss = wrongGuessCount == 8;
 
   const gameWon =
@@ -55,7 +41,7 @@ export default function App() {
     );
   });
 
-  const languageElements = languageProperty.data.map((obj, index) => {
+  const languageElements = languages.map((obj, index) => {
     return (
       <LanguageChip
         key={obj.name}
@@ -80,7 +66,7 @@ export default function App() {
           isGuessed={isGuessed}
           isCorrect={isCorrect}
           isWrong={isWrong}
-          killLanguageChip={killLanguageChip}
+          // killLanguageChip={killLanguageChip}
           addGuessedLetter={addGuessedLetter}
         />
       );
@@ -93,26 +79,27 @@ export default function App() {
     });
   }
 
-  function killLanguageChip(char) {
-    const match = currentWord.includes(char);
-    !match &&
-      setLanguageProperty((prevObj) => {
-        return {
-          count: prevObj.count + 1,
-          data: prevObj.data.map((obj, index) => {
-            if (index === prevObj.count) {
-              return { ...obj, isAlive: false };
-            } else {
-              return obj;
-            }
-          }),
-        };
-      });
-  }
+  // function killLanguageChip(char) {
+  //   const match = currentWord.includes(char);
+  //   !match &&
+  //     setLanguageProperty((prevObj) => {
+  //       return {
+  //         count: prevObj.count + 1,
+  //         data: prevObj.data.map((obj, index) => {
+  //           if (index === prevObj.count) {
+  //             return { ...obj, isAlive: false };
+  //           } else {
+  //             return obj;
+  //           }
+  //         }),
+  //       };
+  //     });
+  // }
 
   function startNewGame() {
     setCurrentWord(getWord());
-    setLanguageProperty({ count: 0, data: programmingLanguagesData });
+    // setLanguageProperty({ count: 0, data: programmingLanguagesData });
+    // setLanguageProperty(programmingLanguagesData);
     setGuessedLetters([]);
   }
 
@@ -130,7 +117,8 @@ export default function App() {
         </p>
       </header>
       <GameStatus
-        proLanData={languageProperty}
+        wrongGuessCount={wrongGuessCount}
+        languages={languages}
         gameOver={gameOver}
         gameWon={gameWon}
       />
