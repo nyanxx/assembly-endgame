@@ -16,6 +16,7 @@ export default function GameStatus(props) {
     try {
       const deadName =
         props.wrongGuessCount &&
+        props.wrongGuessCount < 9 &&
         props.languages[props.wrongGuessCount - 1].name;
       return goodByes[Math.floor(Math.random() * 12)].replace(
         "##LANG##",
