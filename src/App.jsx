@@ -6,8 +6,22 @@ import GameStatus from "./components/GameStatus";
 import LanguageChip from "./components/LanguageChip";
 import languages from "./assets/programmingLanguagesData";
 import { getWord } from "./utils/utils";
+import programmingLanguagesData from "./assets/programmingLanguagesData";
 
 export default function App() {
+  /**
+   * Assembly Endgame - isGameOver
+   * Goal: Add in the incorrect guesses mechanism to the game
+   *
+   * Challenge:
+   * 1. Create a variable `isGameOver` which evaluates to `true`
+   *    if the user has guessed incorrectly 8 times. Consider how
+   *    we might make this more dynamic if we were ever to add or
+   *    remove languages from the languages array.
+   * 2. Conditionally render the New Game button only if the game
+   *    is over.
+   */
+
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -17,14 +31,14 @@ export default function App() {
     (letter) => !currentWord.includes(letter),
   ).length;
 
-  const gameLoss = wrongGuessCount == 8;
+  const gameLoss = wrongGuessCount >= programmingLanguagesData.length - 1;
 
   const gameWon =
     new Set(currentWord.split("")).size ===
     guessedLetters.filter((letter) => currentWord.includes(letter)).length;
   // guessedLetter don't have redundant letters so on words like MOON it have only MON
 
-  const gameOver = gameLoss || gameWon;
+  const isGameOver = gameLoss || gameWon;
 
   const wordDisplay = currentWord.split("").map((letter, index) => {
     const className = clsx({
@@ -96,7 +110,7 @@ export default function App() {
       <GameStatus
         wrongGuessCount={wrongGuessCount}
         languages={languages}
-        gameOver={gameOver}
+        gameOver={isGameOver}
         gameWon={gameWon}
       />
       <section className="language-chips">{languageElements}</section>
@@ -104,7 +118,7 @@ export default function App() {
       <section className={`keyboard`}>{alphabets}</section>
 
       {gameWon && <ReactConfetti />}
-      {gameOver && (
+      {isGameOver && (
         <button onClick={startNewGame} className="new-game">
           New Game
         </button>
