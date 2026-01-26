@@ -11,6 +11,8 @@ export default function GameStatus(props) {
   const display =
     !props.gameOver && props.proLanData.count === 0 ? "none" : "flex";
 
+  const farewell = getPhrase();
+
   function getPhrase() {
     try {
       const deadName =
@@ -25,7 +27,6 @@ export default function GameStatus(props) {
     }
   }
 
-  const farewell = getPhrase();
   return (
     <section className="status-container">
       <div

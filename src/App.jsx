@@ -9,44 +9,39 @@ import clsx from "clsx";
 
 export default function App() {
   /**
-   * Assembly Endgame - Only display correctly guessed letters in word
-   * Goal: Allow the user to start guessing the letters
+   * Assembly Endgame - Wrong guess count
+   * Goal: Add in the incorrect guesses mechanism to the game
    *
-   * Challenge: Only display the correctly-guessed letters
-   * in the word
+   * Challenge: Derive a variable (`wrongGuessCount`) for the
+   * number of incorrect guesses by using the other state
+   * values we're already holding in the component.
+   *
+   * console.log the wrongGuessCount for now
    */
 
+  // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
-
-  const [guessedLetters, setGuessedLetters] = useState([]);
-
-  function addGuessedLetter(letter) {
-    setGuessedLetters((prevArray) => {
-      return prevArray.includes(letter) ? prevArray : [...prevArray, letter];
-    });
-  }
-
   const [wordProperty, setWordProperty] = useState(() =>
     createWordProperty(currentWord),
   );
-
-  // const wordDisplay = wordProperty.map((obj, index) => (
-  //   <div key={index} className="alphabet">
-  //     {!obj.isHidden && obj.letter}
-  //   </div>
-  // ));
-
+  const [guessedLetters, setGuessedLetters] = useState([]);
   const [languageProperty, setLanguageProperty] = useState(() => ({
     count: 0,
     data: programmingLanguagesData,
   }));
 
-  // All languages dies except assembly
-  const gameLoss = languageProperty.count >= languageProperty.data.length - 1;
+  // Derived values
+  const wrongGuessCount = guessedLetters.filter(
+    (letter) => !currentWord.includes(letter),
+  ).length;
+  console.log(wrongGuessCount);
 
-  // All letters from word are not hidden anymore
+  // Static values
+  const gameLoss = languageProperty.count >= languageProperty.data.length - 1; // All languages dies except assembly
+
   const gameWon =
-    wordProperty.filter((obj) => obj.isHidden === true).length === 0;
+    wordProperty.filter((obj) => obj.isHidden === true).length === 0; // All letters from word are not hidden anymore
+
   const gameOver = gameLoss || gameWon;
 
   const wordDisplay = currentWord.split("").map((letter, index) => {
@@ -61,6 +56,38 @@ export default function App() {
     );
   });
 
+  const languageElements = languageProperty.data.map((obj) => {
+    return <ProgrammingLanguage key={obj.name} obj={obj} />;
+  });
+
+  const alphabets = Array.from({ length: 26 })
+    .map((_, i) => String.fromCharCode(65 + i))
+    .map((letter) => {
+      const isGuessed = guessedLetters.includes(letter);
+      const isCorrect = isGuessed && currentWord.includes(letter);
+      const isWrong = isGuessed && !currentWord.includes(letter);
+
+      return (
+        <Alphabet
+          key={letter}
+          alphabet={letter}
+          isGuessed={isGuessed}
+          isCorrect={isCorrect}
+          isWrong={isWrong}
+          alphabetDisplayToggle={alphabetDisplayToggle}
+          killLanguageChip={killLanguageChip}
+          addGuessedLetter={addGuessedLetter}
+        />
+      );
+    });
+
+  // Functions
+  function addGuessedLetter(letter) {
+    setGuessedLetters((prevArray) => {
+      return prevArray.includes(letter) ? prevArray : [...prevArray, letter];
+    });
+  }
+
   function alphabetDisplayToggle(x) {
     setWordProperty((prevArray) => {
       return prevArray.map((obj) => {
@@ -72,10 +99,6 @@ export default function App() {
       });
     });
   }
-
-  const languageElements = languageProperty.data.map((obj) => {
-    return <ProgrammingLanguage key={obj.name} obj={obj} />;
-  });
 
   function killLanguageChip(char) {
     const match = currentWord.includes(char);
@@ -94,43 +117,24 @@ export default function App() {
       });
   }
 
-  const alphabets = Array.from({ length: 26 })
-    .map((_, i) => String.fromCharCode(65 + i))
-    .map((letter) => {
-      const isGuessed = guessedLetters.includes(letter);
-      const isCorrect = isGuessed && currentWord.includes(letter);
-      const isWrong = isGuessed && !currentWord.includes(letter);
-      return (
-        <Alphabet
-          key={letter}
-          alphabet={letter}
-          isGuessed={isGuessed}
-          isCorrect={isCorrect}
-          isWrong={isWrong}
-          alphabetDisplayToggle={alphabetDisplayToggle}
-          killLanguageChip={killLanguageChip}
-          addGuessedLetter={addGuessedLetter}
-        />
-      );
-    });
-
   function startNewGame() {
-    setCurrentWord(getWord());
-    setWordProperty(createWordProperty(currentWord));
+    const newWord = getWord();
+    setCurrentWord(newWord);
+    setWordProperty(createWordProperty(newWord));
     setLanguageProperty({ count: 0, data: programmingLanguagesData });
     setGuessedLetters([]);
   }
 
-  isGameOver(gameOver);
-  function isGameOver(status) {
-    if (status) {
-      if (gameLoss) {
-        console.log("Game Loss");
-      } else {
-        console.log("Game Won");
-      }
-    }
-  }
+  // isGameOver(gameOver);
+  // function isGameOver(status) {
+  //   if (status) {
+  //     if (gameLoss) {
+  //       console.log("Game Loss");
+  //     } else {
+  //       console.log("Game Won");
+  //     }
+  //   }
+  // }
 
   return (
     <main>
