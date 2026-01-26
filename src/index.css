@@ -57,7 +57,7 @@ header .sub-heading {
   justify-content: center;
   align-items: center;
   color: #f9f4da;
-  background-color: #7a5ea7;
+  /* background-color: #7a5ea7; */
   border: 1px #323232 dashed;
   width: 352px;
   height: 100%;

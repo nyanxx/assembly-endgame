@@ -10,16 +10,16 @@ import programmingLanguagesData from "./assets/programmingLanguagesData";
 
 export default function App() {
   /**
-   * Assembly Endgame - isGameOver
-   * Goal: Add in the incorrect guesses mechanism to the game
+   * Assembly Endgame - Display won/lost status
    *
    * Challenge:
-   * 1. Create a variable `isGameOver` which evaluates to `true`
-   *    if the user has guessed incorrectly 8 times. Consider how
-   *    we might make this more dynamic if we were ever to add or
-   *    remove languages from the languages array.
-   * 2. Conditionally render the New Game button only if the game
-   *    is over.
+   * Conditionally render either the "won" or "lost" statuses
+   * from the design, both the text and the styles, based on the
+   * new derived variables.
+   *
+   * Note: We always want the surrounding `section` to be rendered,
+   * so only change the content inside that section. Otherwise the
+   * content on the page would jump around a bit too much.
    */
 
   // State values
@@ -31,19 +31,18 @@ export default function App() {
     (letter) => !currentWord.includes(letter),
   ).length;
 
-  const gameLoss = wrongGuessCount >= programmingLanguagesData.length - 1;
+  const isGameLost = wrongGuessCount >= programmingLanguagesData.length - 1;
 
-  const gameWon =
-    new Set(currentWord.split("")).size ===
-    guessedLetters.filter((letter) => currentWord.includes(letter)).length;
-  // guessedLetter don't have redundant letters so on words like MOON it have only MON
-
-  const isGameOver = gameLoss || gameWon;
+  const isGameWon = Array.from(currentWord).every((letter) =>
+    guessedLetters.includes(letter),
+  );
+  console.log(isGameWon);
+  const isGameOver = isGameLost || isGameWon;
 
   const wordDisplay = currentWord.split("").map((letter, index) => {
     const className = clsx({
       alphabet: true,
-      lost: gameLoss,
+      lost: isGameLost,
     });
     return (
       <div key={index} className={className}>
@@ -110,14 +109,15 @@ export default function App() {
       <GameStatus
         wrongGuessCount={wrongGuessCount}
         languages={languages}
-        gameOver={isGameOver}
-        gameWon={gameWon}
+        isGameOver={isGameOver}
+        isGameLost={isGameLost}
+        isGameWon={isGameWon}
       />
       <section className="language-chips">{languageElements}</section>
       <section className="word">{wordDisplay}</section>
       <section className={`keyboard`}>{alphabets}</section>
 
-      {gameWon && <ReactConfetti />}
+      {isGameWon && <ReactConfetti />}
       {isGameOver && (
         <button onClick={startNewGame} className="new-game">
           New Game

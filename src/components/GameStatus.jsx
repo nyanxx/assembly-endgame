@@ -1,15 +1,14 @@
 import { goodByes } from "../assets/goodByes";
-export default function GameStatus(props) {
-  const gameLoss = props.wrongGuessCount === 8;
 
-  const backgroundColor = gameLoss
+export default function GameStatus(props) {
+  const backgroundColor = props.isGameLost
     ? "#BA2A2A"
-    : props.gameWon
+    : props.isGameWon
       ? "#10A95B"
       : "#7A5EA7";
 
   const display =
-    !props.gameOver && props.wrongGuessCount === 0 ? "none" : "flex";
+    !props.isGameOver && props.wrongGuessCount === 0 ? "none" : "flex";
 
   const farewell = getPhrase();
 
@@ -33,19 +32,19 @@ export default function GameStatus(props) {
         className="game-status"
         style={{ backgroundColor: backgroundColor, display: display }}
       >
-        {gameLoss && (
+        {props.isGameLost && (
           <>
             <h2>Game Over!</h2>
             <p>You lose! Better start learning Assembly 😭</p>
           </>
         )}
-        {props.gameWon && (
+        {props.isGameWon && (
           <>
             <h2>You Win!</h2>
             <p>Well done!🎉</p>
           </>
         )}
-        {props.wrongGuessCount && !props.gameOver && farewell}
+        {!props.isGameOver && props.wrongGuessCount && farewell}
       </div>
     </section>
   );
