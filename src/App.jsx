@@ -15,10 +15,8 @@ export default function App() {
    * ✅ Fix a11y issues
    * ✅ Choose a random word from a list of word
    * ✅ Make the New Game button reset the game
-   * - Confetti drop when the user wins❗
+   * ✅ Confetti drop when the user wins
    *
-   * Assembly Endgame - New game button resets the game
-   * Challenge: Make the New Game button reset the game
    */
 
   // State values
@@ -104,6 +102,7 @@ export default function App() {
 
   return (
     <main>
+      {isGameWon && <ReactConfetti recycle={false} numberOfPieces={1000} />}
       <header>
         <h1 className="heading">Assembly: Endgame</h1>
         <p className="sub-heading">
@@ -147,7 +146,6 @@ export default function App() {
         {alphabets}
       </section>
 
-      {isGameWon && <ReactConfetti />}
       {isGameOver && (
         <button onClick={startNewGame} className="new-game">
           New Game
