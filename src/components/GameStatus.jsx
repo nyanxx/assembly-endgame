@@ -22,13 +22,6 @@ export default function GameStatus(props) {
   }
 
   const display = decideDisplay();
-  // !props.isGameOver && props.wrongGuessCount === 0 ? "none" : "flex";
-
-  // !props.isGameOver &&
-  // props.wrongGuessCount !== 0 &&
-  // props.isRecentLetterCorrect
-  //   ? "none"
-  //   : "flex";
 
   const farewell = getFarewellText(
     props.wrongGuessCount &&

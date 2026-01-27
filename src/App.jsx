@@ -4,23 +4,10 @@ import clsx from "clsx";
 import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
 import LanguageChip from "./components/LanguageChip";
-import languages from "./assets/programmingLanguagesData";
+import languages from "./assets/languages";
 import { getWord } from "./utils/utils";
-import programmingLanguagesData from "./assets/programmingLanguagesData";
 
 export default function App() {
-  /**
-   * Assembly Endgame - Farewell messages
-   * Challenge: Bid farewell to each programming language
-   * as it gets erased from existance 👋😭
-   *
-   * Use the `getFarewellText` function from the new utils.js
-   * file to generate the text.
-   *
-   * Check hint.md if you're feeling stuck, but do your best
-   * to solve the challenge without the hint! 🕵️
-   */
-
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -30,7 +17,7 @@ export default function App() {
     (letter) => !currentWord.includes(letter),
   ).length;
 
-  const isGameLost = wrongGuessCount >= programmingLanguagesData.length - 1;
+  const isGameLost = wrongGuessCount >= languages.length - 1;
 
   const isGameWon = Array.from(currentWord).every((letter) =>
     guessedLetters.includes(letter),
