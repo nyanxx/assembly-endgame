@@ -14,16 +14,11 @@ export default function App() {
    * ✅ Disable the keyboard when the game is over
    * ✅ Fix a11y issues
    * ✅ Choose a random word from a list of word
-   * - Make the New Game button reset the game❗
+   * ✅ Make the New Game button reset the game
    * - Confetti drop when the user wins❗
    *
-   * Assembly Endgame - Choose random word
-   * Challenge: Choose a random word from a list of words
-   *
-   * 1. Create a new function in utils.js that chooses a random
-   *    word from the imported array of words and returns it
-   * 2. import the function into this file
-   * 3. Figure out where to use that function.
+   * Assembly Endgame - New game button resets the game
+   * Challenge: Make the New Game button reset the game
    */
 
   // State values
