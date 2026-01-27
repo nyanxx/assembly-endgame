@@ -7,18 +7,6 @@ import languages from "./assets/languages";
 import { getWord } from "./utils/utils";
 
 export default function App() {
-  /**
-   * Backlog:
-   *
-   * ✅ Farewell messages in status section
-   * ✅ Disable the keyboard when the game is over
-   * ✅ Fix a11y issues
-   * ✅ Choose a random word from a list of word
-   * ✅ Make the New Game button reset the game
-   * ✅ Confetti drop when the user wins
-   *
-   */
-
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -95,10 +83,6 @@ export default function App() {
     setCurrentWord(getWord());
     setGuessedLetters([]);
   }
-
-  // console.log(currentWord);
-  // console.log(languageProperty);
-  // console.log(guessedLetters);
 
   return (
     <main>
