@@ -1,4 +1,4 @@
-import { goodByes } from "../assets/goodByes";
+import { getFarewellText } from "../utils/utils";
 
 export default function GameStatus(props) {
   const backgroundColor = props.isGameLost
@@ -7,25 +7,34 @@ export default function GameStatus(props) {
       ? "#10A95B"
       : "#7A5EA7";
 
-  const display =
-    !props.isGameOver && props.wrongGuessCount === 0 ? "none" : "flex";
+  function decideDisplay() {
+    if (!props.isGameOver) {
+      if (!props.wrongGuessCount) {
+        return "none";
+      }
 
-  const farewell = getPhrase();
-
-  function getPhrase() {
-    try {
-      const deadName =
-        props.wrongGuessCount &&
-        props.wrongGuessCount < 9 &&
-        props.languages[props.wrongGuessCount - 1].name;
-      return goodByes[Math.floor(Math.random() * 12)].replace(
-        "##LANG##",
-        deadName,
-      );
-    } catch (error) {
-      console.error(error);
+      if (props.isRecentLetterCorrect) {
+        return "none";
+      } else {
+        return "flex";
+      }
     }
   }
+
+  const display = decideDisplay();
+  // !props.isGameOver && props.wrongGuessCount === 0 ? "none" : "flex";
+
+  // !props.isGameOver &&
+  // props.wrongGuessCount !== 0 &&
+  // props.isRecentLetterCorrect
+  //   ? "none"
+  //   : "flex";
+
+  const farewell = getFarewellText(
+    props.wrongGuessCount &&
+      props.wrongGuessCount < 9 &&
+      props.languages[props.wrongGuessCount - 1].name,
+  );
 
   return (
     <section className="status-container">
@@ -45,7 +54,7 @@ export default function GameStatus(props) {
             <p>Well done!🎉</p>
           </>
         )}
-        {!props.isGameOver && props.wrongGuessCount && farewell}
+        {!props.isGameOver && !props.isRecentLetterCorrect && farewell}
       </div>
     </section>
   );

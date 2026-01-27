@@ -10,16 +10,15 @@ import programmingLanguagesData from "./assets/programmingLanguagesData";
 
 export default function App() {
   /**
-   * Assembly Endgame - Display won/lost status
+   * Assembly Endgame - Farewell messages
+   * Challenge: Bid farewell to each programming language
+   * as it gets erased from existance 👋😭
    *
-   * Challenge:
-   * Conditionally render either the "won" or "lost" statuses
-   * from the design, both the text and the styles, based on the
-   * new derived variables.
+   * Use the `getFarewellText` function from the new utils.js
+   * file to generate the text.
    *
-   * Note: We always want the surrounding `section` to be rendered,
-   * so only change the content inside that section. Otherwise the
-   * content on the page would jump around a bit too much.
+   * Check hint.md if you're feeling stuck, but do your best
+   * to solve the challenge without the hint! 🕵️
    */
 
   // State values
@@ -36,7 +35,6 @@ export default function App() {
   const isGameWon = Array.from(currentWord).every((letter) =>
     guessedLetters.includes(letter),
   );
-  console.log(isGameWon);
   const isGameOver = isGameLost || isGameWon;
 
   const wordDisplay = currentWord.split("").map((letter, index) => {
@@ -97,6 +95,10 @@ export default function App() {
   // console.log(languageProperty);
   // console.log(guessedLetters);
 
+  const isRecentLetterCorrect = currentWord.includes(
+    guessedLetters[guessedLetters.length - 1],
+  );
+
   return (
     <main>
       <header>
@@ -112,6 +114,7 @@ export default function App() {
         isGameOver={isGameOver}
         isGameLost={isGameLost}
         isGameWon={isGameWon}
+        isRecentLetterCorrect={isRecentLetterCorrect}
       />
       <section className="language-chips">{languageElements}</section>
       <section className="word">{wordDisplay}</section>
