@@ -153,17 +153,19 @@ header .sub-heading {
   font-family: "Hanken Grotesk";
   width: 40px;
   height: 40px;
-}
-
-.keyboard button:hover {
   cursor: pointer;
 }
 
-.keyboard .correct {
+.keyboard button.disable-keyboard {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.keyboard button.correct {
   background-color: #10a95b;
 }
 
-.keyboard .wrong {
+.keyboard button.wrong {
   background-color: #ec5d49;
 }
 
@@ -179,11 +181,5 @@ header .sub-heading {
   padding: 9px;
   margin-bottom: 73px;
   font-weight: 600;
-}
-.new-game:hover {
   cursor: pointer;
-}
-
-.not-allowed:hover {
-  cursor: not-allowed;
 }

@@ -8,6 +8,21 @@ import languages from "./assets/languages";
 import { getWord } from "./utils/utils";
 
 export default function App() {
+  /**
+   * Assembly Endgame - Disable keyboard when the game is over
+   *
+   * Backlog:
+   *
+   * ✅ Farewell messages in status section
+   * ✅ Disable the keyboard when the game is over
+   * - Fix a11y issues
+   * - Make the New Game button reset the game❗
+   * - Choose a random word from a list of words❗
+   * - Confetti drop when the user wins❗
+   *
+   * Challenge: Disable the keyboard when the game is over
+   */
+
   // State values
   const [currentWord, setCurrentWord] = useState(() => getWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
@@ -61,10 +76,15 @@ export default function App() {
           isGuessed={isGuessed}
           isCorrect={isCorrect}
           isWrong={isWrong}
+          isGameOver={isGameOver}
           addGuessedLetter={addGuessedLetter}
         />
       );
     });
+
+  const isRecentLetterCorrect = currentWord.includes(
+    guessedLetters[guessedLetters.length - 1],
+  );
 
   // Functions
   function addGuessedLetter(letter) {
@@ -81,10 +101,6 @@ export default function App() {
   // console.log(currentWord);
   // console.log(languageProperty);
   // console.log(guessedLetters);
-
-  const isRecentLetterCorrect = currentWord.includes(
-    guessedLetters[guessedLetters.length - 1],
-  );
 
   return (
     <main>
@@ -105,7 +121,9 @@ export default function App() {
       />
       <section className="language-chips">{languageElements}</section>
       <section className="word">{wordDisplay}</section>
-      <section className={`keyboard`}>{alphabets}</section>
+      <section className={`keyboard`} disabled={isGameLost}>
+        {alphabets}
+      </section>
 
       {isGameWon && <ReactConfetti />}
       {isGameOver && (

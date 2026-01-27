@@ -9,10 +9,16 @@ export default function Alphabet(props) {
     correct: props.isCorrect,
     // wrong: props.isGuessed && !props.isCorrect, // With this i think there is even no need for "isWrong"??
     wrong: props.isWrong,
+    "disable-keyboard": props.isGameOver,
   });
 
   return (
-    <button onClick={handleAlphabetClick} type="button" className={className}>
+    <button
+      onClick={handleAlphabetClick}
+      type="button"
+      disabled={props.isGameOver}
+      className={className}
+    >
       {props.alphabet}
     </button>
   );
