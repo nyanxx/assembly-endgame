@@ -30,7 +30,7 @@ export default function GameStatus(props) {
   );
 
   return (
-    <section className="status-container">
+    <section className="status-container" aria-live="polite" role="status">
       <div
         className="game-status"
         style={{ backgroundColor: backgroundColor, display: display }}

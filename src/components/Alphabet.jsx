@@ -18,6 +18,8 @@ export default function Alphabet(props) {
       type="button"
       disabled={props.isGameOver}
       className={className}
+      aria-disabled={props.isGuessed}
+      aria-label={`Letter ${props.alphabet}`}
     >
       {props.alphabet}
     </button>

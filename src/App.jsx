@@ -8,18 +8,14 @@ import { getWord } from "./utils/utils";
 
 export default function App() {
   /**
-   * Assembly Endgame - Disable keyboard when the game is over
-   *
    * Backlog:
    *
    * ✅ Farewell messages in status section
    * ✅ Disable the keyboard when the game is over
-   * - Fix a11y issues
+   * ✅ Fix a11y issues
    * - Make the New Game button reset the game❗
    * - Choose a random word from a list of words❗
    * - Confetti drop when the user wins❗
-   *
-   * Challenge: Disable the keyboard when the game is over
    */
 
   // State values
@@ -84,9 +80,8 @@ export default function App() {
       );
     });
 
-  const isRecentLetterCorrect = currentWord.includes(
-    guessedLetters[guessedLetters.length - 1],
-  );
+  const recentLetter = guessedLetters[guessedLetters.length - 1];
+  const isRecentLetterCorrect = currentWord.includes(recentLetter);
 
   // Functions
   function addGuessedLetter(letter) {
@@ -113,6 +108,7 @@ export default function App() {
           from Assembly!
         </p>
       </header>
+
       <GameStatus
         wrongGuessCount={wrongGuessCount}
         languages={languages}
@@ -122,7 +118,28 @@ export default function App() {
         isRecentLetterCorrect={isRecentLetterCorrect}
       />
       <section className="language-chips">{languageElements}</section>
+
       <section className="word">{wordDisplay}</section>
+
+      {/* Combined visually-hidden aria-live region for status updates */}
+      <section className="sr-only" aria-live="polite" role="status">
+        <p>
+          {isRecentLetterCorrect
+            ? `Correct! The letter ${recentLetter} is in the word.`
+            : `Sorry, the letter ${recentLetter} is not in the word.`}
+          You have {languages.length - 1 - wrongGuessCount} attempts left.
+        </p>
+        <p>
+          Current word:
+          {currentWord
+            .split("")
+            .map((letter) =>
+              guessedLetters.includes(letter) ? letter + "." : "blank.",
+            )
+            .join(" ")}
+        </p>
+      </section>
+
       <section className={`keyboard`} disabled={isGameLost}>
         {alphabets}
       </section>
