@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ReactConfetti from "react-confetti";
-import clsx from "clsx";
 import Alphabet from "./components/Alphabet";
 import GameStatus from "./components/GameStatus";
 import LanguageChip from "./components/LanguageChip";
@@ -40,13 +39,16 @@ export default function App() {
   const isGameOver = isGameLost || isGameWon;
 
   const wordDisplay = currentWord.split("").map((letter, index) => {
-    const className = clsx({
-      alphabet: true,
-      lost: isGameLost,
-    });
-    return (
-      <div key={index} className={className}>
+    return !isGameLost ? (
+      <div key={index} className={"alphabet"}>
         {guessedLetters.includes(letter) ? letter : ""}
+      </div>
+    ) : (
+      <div
+        key={index}
+        className={`alphabet ${!guessedLetters.includes(letter) && "lost"}`}
+      >
+        {letter}
       </div>
     );
   });
