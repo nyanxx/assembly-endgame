@@ -1,4 +1,4 @@
-import words from "../assets/random50Words";
+import { words } from "../assets/words";
 
 function getWord() {
   const word = words[Math.floor(Math.random() * words.length)];
