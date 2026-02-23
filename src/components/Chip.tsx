@@ -1,7 +1,14 @@
-export default function LanguageChip(props) {
+import type { JSX } from "react";
+import type { Language } from "../assets/languages";
+
+type ChipProps = {
+  obj: Language
+  lost: boolean
+}
+
+export default function Chip(props: ChipProps): JSX.Element {
   return (
     <div
-      key={props.obj.name}
       className="chip"
       style={{
         backgroundColor: props.obj.backgroundColor,

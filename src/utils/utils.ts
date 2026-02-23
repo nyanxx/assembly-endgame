@@ -1,13 +1,15 @@
 import { words } from "../assets/words";
 
-function getWord() {
-  const word = words[Math.floor(Math.random() * words.length)];
-  // console.log("Got a word:", word);
-  return word.toUpperCase();
+function getRandomIndex(ofArray: string[]): number {
+  return Math.floor(Math.random() * ofArray.length)
 }
 
-function getFarewellText(language) {
-  const options = [
+function getWord(): string {
+  return words[getRandomIndex(words)].toUpperCase();
+}
+
+function getFarewellText(language: string): string {
+  const options: string[] = [
     `Farewell, ${language}`,
     `Adios, ${language}`,
     `R.I.P., ${language}`,
@@ -21,9 +23,7 @@ function getFarewellText(language) {
     `${language}, your watch has ended`,
     `${language} has left the building`,
   ];
-
-  const randomIndex = Math.floor(Math.random() * options.length);
-  return options[randomIndex];
+  return options[getRandomIndex(options)];
 }
 
 export { getWord, getFarewellText };
