@@ -9,14 +9,14 @@ type ChipProps = {
 export default function Chip(props: ChipProps): JSX.Element {
   return (
     <div
-      className="chip"
+      className="text-[12px] rounded-[3px] p-[4.5px] relative m-[0.1px]"
       style={{
         backgroundColor: props.obj.backgroundColor,
         color: props.obj.fontColor,
       }}
     >
       {props.lost ? (
-        <div className="lost">{props.obj.name}</div>
+        <div className="chip-lost">{props.obj.name}</div>
       ) : (
         props.obj.name
       )}

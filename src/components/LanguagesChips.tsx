@@ -18,7 +18,7 @@ export default function LanguageChips(props: LanguageChipsProps): JSX.Element {
         );
     });
     return (
-        <section className="language-chips">{languageElements}</section>
+        <section className="flex justify-center flex-wrap gap-[1.5px] mt-9 w-63.25 font-semibold">{languageElements}</section>
 
     )
 }

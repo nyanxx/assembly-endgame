@@ -39,9 +39,9 @@ export default function GameStatus(props: GameStatusProps): JSX.Element {
   const farewell: string | null = (languageName) ? getFarewellText(languageName) : null;
 
   return (
-    <section className="status-container" aria-live="polite" role="status">
+    <section className="h-20 w-88" aria-live="polite" role="status">
       <div
-        className="game-status"
+        className="flex flex-col justify-center items-center text-[#f9f4da] border border-[#323232] border-dashed  h-full p-4 rounded-sm mt-5 texxt-[16px] font-light"
         style={{
           backgroundColor: backgroundColor,
           display: display,
@@ -53,14 +53,14 @@ export default function GameStatus(props: GameStatusProps): JSX.Element {
       >
         {props.isGameLost && (
           <>
-            <h2>Game Over!</h2>
-            <p>You lose! Better start learning Assembly 😭</p>
+            <h2 className="text-[20px] font-normal">Game Over!</h2>
+            <p className="text-[16px] font-normal">You lose! Better start learning Assembly 😭</p>
           </>
         )}
         {props.isGameWon && (
           <>
-            <h2>You Win!</h2>
-            <p>Well done!🎉</p>
+            <h2 className="text-[20px] font-normal">You Win!</h2>
+            <p className="text-[16px] font-normal">Well done!🎉</p>
           </>
         )}
         {!props.isGameOver && !props.isRecentLetterCorrect && farewell}

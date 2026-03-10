@@ -1,14 +1,15 @@
-import { useState } from "react";
 import type { JSX } from "react";
-import ConfettiContainer from "./components/ConfettiContainer";
-import Header from "./components/Header";
-import GameStatus from "./components/GameStatus";
-import LanguageChips from "./components/LanguagesChips";
-import Word from "./components/Word";
-import Keyboard from "./components/Keyboard";
-import NewGameButton from "./components/NewGameButton";
-import AriaLiveSection from "./components/AriaLiveSection";
+import { useState } from "react";
 import { languages } from "./assets/languages";
+import AriaLiveSection from "./components/AriaLiveSection";
+import ConfettiContainer from "./components/ConfettiContainer";
+import GameStatus from "./components/GameStatus";
+import Header from "./components/Header";
+import Keyboard from "./components/Keyboard";
+import LanguageChips from "./components/LanguagesChips";
+import NewGameButton from "./components/NewGameButton";
+import ThemeToggle from "./components/ToggleTheme";
+import Word from "./components/Word";
 import { getWord } from "./utils/utils";
 
 export default function App(): JSX.Element {
@@ -42,7 +43,8 @@ export default function App(): JSX.Element {
   }
 
   return (
-    <main>
+    <main className="flex flex-col w-full h-full items-center justify-center md:justify-start">
+      <ThemeToggle />
       <ConfettiContainer isGameWon={isGameWon} />
       <Header />
       <GameStatus
@@ -70,16 +72,18 @@ export default function App(): JSX.Element {
         currentWord={currentWord}
         guessedLetters={guessedLetters}
       />
-      <Keyboard
-        currentWord={currentWord}
-        guessedLetters={guessedLetters}
-        addGuessedLetter={addGuessedLetter}
-        isGameOver={isGameOver}
-      />
-      <NewGameButton
-        isGameOver={isGameOver}
-        startNewGame={startNewGame}
-      />
+      <div className="relative flex justify-center">
+        <Keyboard
+          currentWord={currentWord}
+          guessedLetters={guessedLetters}
+          addGuessedLetter={addGuessedLetter}
+          isGameOver={isGameOver}
+        />
+        <NewGameButton
+          isGameOver={isGameOver}
+          startNewGame={startNewGame}
+        />
+      </div>
     </main>
   );
 }
